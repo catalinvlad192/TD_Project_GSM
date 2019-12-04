@@ -7,6 +7,12 @@
 /*
 	Vlad Catalin-Andrei
 	Salapa Ionut
+
+	AT+CREG = normal
+	AT+COPS = normal
+	AT+GSN  = NOT Normal
+	AT+GMI  = NOT Normal
+	AT+GMR  = NOT Normal
 */
 
 int main(int argc, char* argv[])

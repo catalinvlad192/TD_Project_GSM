@@ -4,6 +4,7 @@
 #include <stdio.h>
 
 AT_Data data;
+bool isNormalCommand = true;
 
 const char* getStringFromEReturnType(EReturnType ret)
 {
@@ -74,9 +75,23 @@ EReturnType parse(uint8_t ch)
 			{
 				state = 7;
 			}
-			else if (ch == '+')
+			else if (ch == '+' && isNormalCommand)
 			{
 				state = 12;
+			}
+			else if ((ch !=CR && ch !=LF) && !isNormalCommand)
+			{
+				state = 13;
+				if (lineIndex < MAX_LINE_SIZE) {
+					if (stringIndex < MAX_STR_SIZE - 1) {
+						data.str[lineIndex][stringIndex++] = ch;
+					}
+					else if (stringIndex == MAX_STR_SIZE - 1)
+					{
+						data.str[lineIndex][stringIndex] = '\0';
+						stringIndex++;
+					}
+				}
 			}
 			else
 			{
@@ -324,10 +339,9 @@ EReturnType parse(uint8_t ch)
 		}
 		case 15:
 		{
-			if (ch == '+')
+			if (ch == '+' && isNormalCommand)
 			{
 				state = 12;
-				printf("################################################LINE %d %d\n", lineIndex, stringIndex);
 			}
 			else if (ch == CR)
 			{

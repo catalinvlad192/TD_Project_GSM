@@ -27,6 +27,7 @@ typedef struct
 }AT_Data;
 
 extern AT_Data data;
+extern bool isNormalCommand;
 
 EReturnType parse(uint8_t ch);
 const char* getStringFromEReturnType(EReturnType ret);
